@@ -1,44 +1,23 @@
-/*
-  PulseRider v0.0.3 (2025-09-17)
-
-  Debug functions for PulseRider sensors.
-  Currently only supports DHT22 and MAX30102 sensors, 
-     with heart rate measurements for the latter only.
-  Licenses are stipulated in PulseRider.ino.
-
-  @Andrei Jose R. Embarque <andreijosee@zoho.com>
-*/
-
 #pragma once 
 #define ISDEBUG
 
-#include <Wire.h>
-#include <MAX30105.h>
-
-#include "heartRate.h"
-#include "DHT.h"
-
-typedef unsigned char byte;
-
-class Debug 
+class
+Debug 
 {
     public:
         Debug ();
         
-        static const byte RATE_SIZE = 4;
-        byte rates[RATE_SIZE];
-        byte rateSpot = 0;
-        long lastBeat = 0;
-        float beatsPerMinute;
-        int beatAvg;
-
-        void setupDHT22 ();
+        void setupMAX30205 (uint8_t* address);
         void setupMAX30105 ();
+        float getTemperature_MAX30205();
         void setupBPM ();
-        void getDHT22Values ();
-        void getBPM ();
-
-    private:
-        MAX30105 MAX30105;
-        DHT dht;
+        float getBPM ();
 };
+
+const byte RATE_SIZE = 5;
+byte rates[RATE_SIZE];
+byte rateSpot = 0;
+long lastBeat = 0;
+
+float beatsPerMinute;
+int beatAvg;
