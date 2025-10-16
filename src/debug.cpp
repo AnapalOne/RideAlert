@@ -1,10 +1,10 @@
 /*
-  PulseRider v0.0.3 (2025-09-17)
+  Ride-Alert v0.0.3 (2025-09-17)
 
-  Debug functions for PulseRider sensors.
+  Debug functions for Ride-Alert sensors.
   Currently only supports DHT22 and MAX30102 sensors, 
      with heart rate measurements for the latter only.
-  Licenses are stipulated in PulseRider.ino.
+  Licenses are stipulated in RideAlert.ino.
 
   @Andrei Jose R. Embarque <andreijosee@zoho.com>
 */
@@ -36,7 +36,7 @@ Debug::setupMAX30105 ()
 {
   Serial.print("Starting MAX30105...");
 
-  if (MAX30105.begin(Wire, I2C_SPEED_FAST) == false) {
+  if (max30105.begin(Wire, I2C_SPEED_FAST) == false) {
     Serial.println(" failed!. Please check wiring/power.");
     while (1);
   } 
@@ -44,15 +44,15 @@ Debug::setupMAX30105 ()
     Serial.println(" done.");
 
   Serial.print("Initializing MAX30102...");
-  MAX30105.setup();
+  max30105.setup();
   Serial.println(" done.");
 }
 
 void
 Debug::setupBPM ()
 {
-  MAX30105.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
-  MAX30105.setPulseAmplitudeGreen(0); //Turn off Green LED
+  max30105.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
+  max30105.setPulseAmplitudeGreen(0); //Turn off Green LED
 }
 
 void
@@ -91,7 +91,7 @@ Debug::getDHT22Values ()
 void
 Debug::getBPM ()
 {
- long irValue = MAX30105.getIR();
+ long irValue = max30105.getIR();
 
   if (checkForBeat(irValue))
   {
@@ -111,9 +111,6 @@ Debug::getBPM ()
         beatAvg += rates[x];
       beatAvg /= RATE_SIZE;
     }
-  }
-  else {
-    Serial.println("No beat found, check your finger placement");
   }
 
   Serial.print("IR=");
